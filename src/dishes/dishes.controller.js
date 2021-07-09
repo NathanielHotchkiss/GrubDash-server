@@ -1,4 +1,4 @@
-const { response } = require("express");
+// const { response } = require("express");
 const path = require("path");
 
 // Use the existing dishes data
@@ -6,8 +6,6 @@ const dishes = require(path.resolve("src/data/dishes-data"));
 
 // Use this function to assign ID's when necessary
 const nextId = require("../utils/nextId");
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 const dishExists = (req, res, next) => {
   const { dishId } = req.params;
@@ -22,8 +20,6 @@ const dishExists = (req, res, next) => {
     message: `Dish does not exist: ${dishId}`,
   });
 };
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function isValidDish(req, res, next) {
   const { dishId } = req.params;
@@ -59,13 +55,9 @@ function isValidDish(req, res, next) {
   next();
 }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 function list(req, res) {
   res.json({ data: dishes });
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function create(req, res) {
   const { data: { name, price, description, image_url } = {} } = req.body;
@@ -81,13 +73,9 @@ function create(req, res) {
   res.status(201).json({ data: newDish });
 }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 function read(req, res) {
   res.json({ data: res.locals.foundDish });
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function update(req, res) {
   const { dishId } = req.params;
@@ -100,8 +88,6 @@ function update(req, res) {
   foundDish.image_url = image_url;
   res.json({ data: foundDish });
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 module.exports = {
   create: [isValidDish, create],

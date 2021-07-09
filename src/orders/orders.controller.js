@@ -8,8 +8,6 @@ const dishes = require(path.resolve("src/data/dishes-data"));
 // Use this function to assigh ID's when necessary
 const nextId = require("../utils/nextId");
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 const orderExists = (req, res, next) => {
   const { orderId } = req.params;
   const foundOrder = orders.find((order) => order.id === orderId);
@@ -23,8 +21,6 @@ const orderExists = (req, res, next) => {
     message: `Order does not exist: ${req.params.orderId}`,
   });
 };
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function isValidOrder(req, res, next) {
   const { deliverTo = "", mobileNumber = "", dishes = [] } = req.body.data;
@@ -53,8 +49,6 @@ function isValidOrder(req, res, next) {
   res.locals.validOrder = req.body.data;
   next();
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function orderStatus(req, res, next) {
   const { orderId } = req.params;
@@ -85,19 +79,13 @@ function orderStatus(req, res, next) {
   next();
 }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 function list(req, res) {
   res.json({ data: orders });
 }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 function read(req, res) {
   res.json({ data: res.locals.foundOrder });
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function create(req, res) {
   const { data: { deliverTo, mobileNumber, status, dishes } = {} } = req.body;
@@ -113,8 +101,6 @@ function create(req, res) {
   res.status(201).json({ data: newOrder });
 }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 function update(req, res) {
   const { foundOrder } = res.locals;
 
@@ -124,8 +110,6 @@ function update(req, res) {
   foundOrder.dishes = dishes;
   res.json({ data: foundOrder });
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function destroy(req, res, next) {
   const { orderId } = res.locals;
@@ -141,8 +125,6 @@ function destroy(req, res, next) {
     message: "Only pending orders can be deleted",
   });
 }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 module.exports = {
   create: [isValidOrder, create],
